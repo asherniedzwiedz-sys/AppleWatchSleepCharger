@@ -2,6 +2,11 @@
 
 Is there a charger you can wear on an Apple Watch overnight, so it charges while it tracks your sleep, the way the Whoop battery pack does?
 
+> **Project files**
+> - [`DESIGN.md`](DESIGN.md): can we build one? Covers every option considered, the only viable concept (a ring coil under the watch with a hole for the sensors), a cheap go/no-go test plan, and risks.
+> - [`research/notes.md`](research/notes.md): all findings with sources, tagged verified / inferred / unverified.
+> - [`calc/energy_budget.py`](calc/energy_budget.py): battery-size and heat estimates.
+
 **Short answer: no. No such product exists for Apple Watch, and the hardware design makes one unlikely.**
 
 *Researched November 2026.*
