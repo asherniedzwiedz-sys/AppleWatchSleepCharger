@@ -94,3 +94,53 @@ Source: [Google Patents](https://patents.google.com/patent/US10020668B2/en). Thi
 
 - **[verified, secondary]** IEC 62368-1 touch-temperature limits for devices worn on the body: about **43–48 °C for more than 8 h** of contact, depending on material, and 48 °C for 1 min to 8 h. Comfort targets are stricter, around 40 °C. IEC 63203-406-1 has an annex on **low-temperature burns from wearables** (skin damage from long contact at only moderately warm temperatures). ([Advanced Energy on IEC limits](https://www.advancedenergy.com/en-us/about/news/blog/design-considerations-for-maximum-temperature-per-iec-safety-standards/), [Electronics Cooling 2025](https://www.electronics-cooling.com/2025/07/thermal-design-for-externally-worn-wearable-electronics/), [IEC 63203-406-1 preview](https://www.vde-verlag.de/iec-normen/preview-pdf/info_iec63203-406-1{ed1.0}b.pdf))
 - **[inferred]** An overnight charger is exactly the "more than 8 hours of skin contact" case, which has the **strictest** limit. Low-temperature burns matter because the wearer is asleep and won't notice slow heating.
+- **[verified]** IEC 62368-1 table, as reproduced by Electronics Cooling: devices worn on the body in direct contact for more than 8 h are limited to **43–48 °C**, and for 1 min to 8 h to **48 °C**. Comfort is "often on the order of 40 °C" for metals. The article gives **no heat-flux limit** and no rule for how many milliwatts raise skin temperature by how much. ([Electronics Cooling, Jul 2025](https://www.electronics-cooling.com/2025/07/thermal-design-for-externally-worn-wearable-electronics/))
+- **[inferred, stable physiology]** At rest the body sheds roughly 80 W over about 1.8 m² of skin, about **4–5 mW/cm²**. A charger ring putting 12–47 mW/cm² into the skin (see §16) is **3–10× that**, so expect noticeable local warming. The actual temperature has to be measured, not guessed.
+
+## 13. Apple's own accessory rules (primary source, current)
+
+Source: Apple, *Accessory Design Guidelines for Apple Devices*, **Release R32 Update 1, dated 2026-10-30**, chapter 20 "Watch Bands". ([PDF](https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf))
+
+- **[verified, quoted] "Watch bands shall not integrate magnetic chargers."** (§20.1)
+- **[verified, quoted]** "Watch bands shall enable the user to maintain direct skin contact with Apple Watch heart sensors and the back of Apple Watch … Failure to do so may interfere with Apple Watch wrist detect and Apple Pay features." (§20.1)
+- **[verified]** Apple's dimensional drawings for cases list "CASE DOES NOT OBSTRUCT THE WATCH CHARGING INTERFACE", "…OPTICAL SENSORS", "…EXTEND INTO WATCH SENSOR WINDOWS" and "…CONTACT ELECTRICAL SENSORS" as rules. ([Apple Watch Ultra dimensional drawing](https://developer.apple.com/download/files/accessories/dimensional-drawings/apple-watch-ultra.pdf). The drawing is marked proprietary, so I'm linking it rather than copying its dimensions. Download it yourself for exact geometry.)
+- **[verified, from the drawing]** On the back, the **charging interface is a circle in the centre, and the four optical sensor windows sit inside it**. The electrical sensor (electrode) areas are on the back crystal around them.
+- **[inferred] What this means:**
+  - A charger band can **never be MFi-approved**, so you can't buy Apple's official charging module for it. Any version, DIY or commercial, would rely on a non-Apple charging chip, which watchOS updates have broken before (§10).
+  - A ring under the watch would cover the electrode areas. Apple warns that blocking skin contact with the back "may interfere with … wrist detect". **Wrist detection must be tested**, because sleep tracking and background heart rate need it on (§4).
+- **[unverified]** The Ultra drawing has a callout "DO NOT OBSTRUCT PORT IN BANDSLOT". An Apple Community thread mentions a small hole in an Ultra band slot. I found no evidence it's an electrical port (Series 4 had a pressure-equalisation vent in a band slot). Don't count on it. ([Apple Community 254313285](https://discussions.apple.com/thread/254313285), [iFixit Series 4](https://www.ifixit.com/teardown/apple-watch-series-4-teardown/113044))
+
+## 14. Receiver coil geometry: a ring around the sensors (Apple patent)
+
+Source: Apple patent US 10,381,881 B2, "Architecture of portable electronic devices with wireless charging receiver systems", priority 2017-09-06, granted 2019-08-13. It describes a smart watch. ([Google Patents](https://patents.google.com/patent/US10381881B2/en))
+
+- **[verified, quoted]** "sensor module 1636 can be mounted on an inner surface of window 2204 and positioned within an inner diameter of receiver system 1618". "Sensor module 1636 can include a thin heart rate sensor 2502 and one or more photo diodes 2504". The alignment module and magnet are also "positioned within an inner diameter of receiver system 1618".
+- **[verified]** The receiver coil is described as having "an inner diameter and an outer diameter" (a ring), with a ferromagnetic shield covering part of it.
+- **[unverified, from a model summary of the page]** Secondary-coil frequency "between 300 to 400 kHz" (~326 kHz), which matches the 326.5 kHz forum figure in §2. Ferrite: Mn-Zn shield, permeability > 3000.
+- **[inferred] This is the key physical enabler.** The watch's receiving coil is a **ring around the heart-rate sensor and magnet**. A **ring-shaped transmitter** lined up over that coil could couple to it **while leaving the centre open for the sensors**, which is exactly what Apple's other patent (§6) shows with its "apertures … to accommodate sensor windows". Caveat: a patent doesn't prove the shipping product is built this way, though it fits the iFixit and drawing evidence.
+
+## 15. Why "from the top" or "around the side" doesn't work (measured physics)
+
+Source: Zhu, Ban, Zhang, Yan, Xu, Mi, "Metal-rim-connected inductive coupler for smartwatch applications", *IET Power Electronics* 13(15):3428–3434, 2020, doi:10.1049/iet-pel.2020.0208. ([PDF](https://chrismi.sdsu.edu/publications/190.pdf))
+
+- **[verified]** "the receiving coil (Rx coil) must be located at the very bottom of the smartwatch to ensure that no metallic components (… lithium-ion battery …) are embedded between the transmitting coil (Tx coil) and Rx coil."
+- **[verified, Table 2]** A transmitter coil around a watch with an **unbroken metal rim** gave a coupling coefficient **k = 0.042**. Cutting a 1 mm slot in the rim and wiring it into the receiver raised it to **0.467**. That modification has to be built into the watch. Apple Watch rims aren't made that way, as far as I know.
+- **[verified, Table 4]** With a metal layer (bottom metal cover or battery pack) in the field, a conventional coupler fell from **k = 0.417 to 0.008**.
+- **[verified]** It also cites an earlier smartwatch-**strap** wireless charging system at **1.4 W output and 30 % DC-DC efficiency** (Jeong et al., IEEE Trans.). That's a real-world efficiency reference for coils in a band.
+- **[inferred] Conclusion:** charging from the **top** (through the display, battery and logic board) or from **around the side** (through a closed metal case) is physically a non-starter, with coupling roughly 10–50× worse plus eddy-current heating of the case. **The power has to go in through the back.** The battery can sit on top or on the band like WHOOP's, but the coil has to sit under the watch.
+
+## 16. Energy and heat budget (my calculation)
+
+Script: [`calc/energy_budget.py`](../calc/energy_budget.py). Run `python3 calc/energy_budget.py`. Inputs are labelled. Assumptions: 8 h night, 20 % → 100 %, ~20 mW sleep draw (derived from Apple's "5 min ≈ 10 h of sleep tracking"), and 30–60 % end-to-end efficiency.
+
+| Watch (battery) | Energy into watch overnight | Pack needed at 30 / 45 / 60 % efficiency | Heat near skin (half of losses) |
+|---|---|---|---|
+| Series 10 46 mm (1.27 Wh) | 1.17 Wh (avg ~147 mW) | ~1,060 / 700 / 530 mAh | ~170 / 90 / 50 mW |
+| Series 11 46 mm (1.40 Wh) | 1.28 Wh (avg ~160 mW) | ~1,150 / 770 / 580 mAh | ~190 / 100 / 55 mW |
+| Ultra 3 49 mm (2.31 Wh) | 2.01 Wh (avg ~251 mW) | ~1,810 / 1,210 / 910 mAh | ~290 / 150 / 85 mW |
+
+- **[inferred]** A full overnight refill needs a pack of roughly **0.6–1.8 Ah**. For comparison, WHOOP 4.0's own battery is about 0.72 Wh (2.8 g × 258 Wh/kg, per TechInsights), so its pack can be tiny. **An Apple Watch pack would be several times bigger**, about the size of a small LiPo pouch, roughly 15–30 g. That's an estimate.
+- **[inferred]** **"Maintenance mode"** (just cover the night's tracking, ~0.16 Wh, and keep the battery from dropping) needs only **~70–145 mAh**, which is small. It doesn't refill the watch, though. You'd still top it up during the day.
+- **[inferred]** Spreading the charge over 8 h means low average power (~150–250 mW into the watch). That's **much gentler than Apple's puck**, which fast-charges at several watts. Heat is still the main safety question, because it's skin contact while you're asleep.
+- **[verified]** Apple Watch "will regulate its internal temperature… charging times might increase, or charging might stop", and Ultra's ambient range while charging is 0–35 °C. ([Apple Support 108766](https://support.apple.com/108766)) **[inferred]** On a wrist, the back sits near skin temperature (low-to-mid 30s °C), so the watch may pause charging because of heat. Another reason to charge slowly.
+- **[verified]** Series 8 and later and the Ultra have a temperature sensor **in the back crystal** that samples every 5 s during sleep to produce nightly wrist-temperature deviations. ([Apple Support 102674](https://support.apple.com/102674)) **[inferred]** A warm charging ring under the watch would **skew wrist-temperature data**, which also affects cycle-tracking estimates. You'd have to accept losing or corrupting that metric on charging nights.
