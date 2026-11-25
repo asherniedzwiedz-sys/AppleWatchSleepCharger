@@ -25,13 +25,13 @@
 
 | | WHOOP 4.0 / 5.0 | Apple Watch |
 |---|---|---|
-| Where power enters | **Top** of the module (wireless, through the pack that slides on) (§1) | **Back** of the watch, the skin side (§2, §14) |
+| Where power enters | Wirelessly from the pack that slides onto the module, on the face away from the skin (going by photos; not stated in text) (§1) | **Back** of the watch, the skin side (§2, §14) |
 | Where the sensors are | Bottom (skin side) | Bottom, **inside the same ring** as the charging coil (§13, §14) |
 | Conflict between charging and sensing? | None. They use opposite faces | Yes. Both need the back |
 | Battery to refill | About 0.7 Wh (§16) | 1.27–2.31 Wh (Series 10 → Ultra 3) (§9) |
-| Official wear-while-charging accessory | Yes ($49, IP68, ~110 min) (§1) | **Banned** by Apple's band guidelines (§13) |
+| Official wear-while-charging accessory | Yes. 4.0: ~2 h on-wrist. 5.0/MG: ~$49, IP68, ~110 min (§1) | **Banned** by Apple's band guidelines (§13) |
 
-WHOOP solved this when it designed the device, by putting the power receiver on the top. On Apple Watch, the only face that can take power in is the same face that has to touch your skin.
+WHOOP solved this when it designed the device, by putting the power receiver where the pack slides on, away from the sensors. On Apple Watch, the only face that can take power in is the same face that has to touch your skin.
 
 ---
 
