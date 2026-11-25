@@ -120,15 +120,15 @@ Source: Apple patent US 10,381,881 B2, "Architecture of portable electronic devi
 - **[unverified, from a model summary of the page]** Secondary-coil frequency "between 300 to 400 kHz" (~326 kHz), which matches the 326.5 kHz forum figure in §2. Ferrite: Mn-Zn shield, permeability > 3000.
 - **[inferred] This is the key physical enabler.** The watch's receiving coil is a **ring around the heart-rate sensor and magnet**. A **ring-shaped transmitter** lined up over that coil could couple to it **while leaving the centre open for the sensors**, which is exactly what Apple's other patent (§6) shows with its "apertures … to accommodate sensor windows". Caveat: a patent doesn't prove the shipping product is built this way, though it fits the iFixit and drawing evidence.
 
-## 15. Why "from the top" or "around the side" doesn't work (measured physics)
+## 15. Why "from the top" or "around the side" doesn't work (published coupling numbers)
 
 Source: Zhu, Ban, Zhang, Yan, Xu, Mi, "Metal-rim-connected inductive coupler for smartwatch applications", *IET Power Electronics* 13(15):3428–3434, 2020, doi:10.1049/iet-pel.2020.0208. ([PDF](https://chrismi.sdsu.edu/publications/190.pdf))
 
 - **[verified]** "the receiving coil (Rx coil) must be located at the very bottom of the smartwatch to ensure that no metallic components (… lithium-ion battery …) are embedded between the transmitting coil (Tx coil) and Rx coil."
-- **[verified, Table 2]** A transmitter coil around a watch with an **unbroken metal rim** gave a coupling coefficient **k = 0.042**. Cutting a 1 mm slot in the rim and wiring it into the receiver raised it to **0.467**. That modification has to be built into the watch. Apple Watch rims aren't made that way, as far as I know.
-- **[verified, Table 4]** With a metal layer (bottom metal cover or battery pack) in the field, a conventional coupler fell from **k = 0.417 to 0.008**.
+- **[verified, Table 2, simulation results]** A transmitter coil around a watch with an **unbroken metal rim** gave a coupling coefficient **k = 0.042**. Cutting a 1 mm slot in the rim and wiring it into the receiver raised it to **0.467**. Their built prototype confirmed the improvement: "from 0.05 to 0.46", 5 W output, 87.4 % coil-to-coil efficiency. That modification has to be built into the watch. Apple Watch rims aren't made that way, as far as I know.
+- **[verified, Table 4, simulation results]** With a metal layer (bottom metal cover or battery pack) in the field, a conventional coupler fell from **k = 0.417 to 0.008**.
 - **[verified]** It also cites an earlier smartwatch-**strap** wireless charging system at **1.4 W output and 30 % DC-DC efficiency** (Jeong et al., IEEE Trans.). That's a real-world efficiency reference for coils in a band.
-- **[inferred] Conclusion:** charging from the **top** (through the display, battery and logic board) or from **around the side** (through a closed metal case) is physically a non-starter, with coupling roughly 10–50× worse plus eddy-current heating of the case. **The power has to go in through the back.** The battery can sit on top or on the band like WHOOP's, but the coil has to sit under the watch.
+- **[inferred] Conclusion:** charging from the **top** (through the display, battery and logic board) or from **around the side** (through a closed metal case) is physically a non-starter, with simulated coupling roughly 10–50× worse plus eddy-current heating of the case. Their geometry isn't an Apple Watch, but the physics carries over. **The power has to go in through the back.** The battery can sit on top or on the band like WHOOP's, but the coil has to sit under the watch.
 
 ## 16. Energy and heat budget (my calculation)
 

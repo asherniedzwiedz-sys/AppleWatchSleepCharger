@@ -4,8 +4,8 @@
 
 ## Verdict first
 
-1. **A charger that sits on top of the watch (over the screen) cannot work.** Apple Watch only takes in power through the coil on its back. From the top, the field would have to pass through the battery, logic board and metal case. In published smartwatch measurements, a metal layer in the path cut coupling from 0.417 to 0.008, and a coil around an unbroken metal rim got 0.042 (§15). No accessory can change that.
-2. **The only route that might work is a thin ring-shaped charging coil *under* the watch, with a hole in the middle for the sensors**, powered by a battery that rides on top of the band like WHOOP's pack. The physics allows it: Apple's own patent puts the watch's receiving coil in a ring *around* the heart-rate sensor (§14). Apple itself patented this exact "battery band with holes for the sensor windows" idea (§6).
+1. **A charger that sits on top of the watch (over the screen) cannot work.** Apple Watch only takes in power through the coil on its back. From the top, the field would have to pass through the battery, logic board and metal case. In a published smartwatch study's simulations, a metal layer in the path cut coupling from 0.417 to 0.008, and a coil around an unbroken metal rim got 0.042 (§15). No accessory can change that.
+2. **The only route that might work is a thin ring-shaped charging coil *under* the watch, with a hole in the middle for the sensors**, powered by a battery that rides on top of the band like WHOOP's pack. The physics allows it: Apple's own patent puts the watch's receiving coil in a ring *around* the heart-rate sensor (§14). Apple has patented essentially this idea, a battery band whose coil has openings for the sensor windows (§6).
 3. **Apple has never shipped it, and its accessory rules forbid it**: "Watch bands shall not integrate magnetic chargers" (§13). So there's no official charging chip for it, and unofficial chips have been broken by watchOS updates before (§10).
 4. **Three unknowns could kill it, and only physical tests can answer them**:
    - Does the watch keep wrist detection on with a ring covering part of its back?
@@ -17,7 +17,7 @@
 **Honest rating.**
 - **As a product to sell: poor.** It's banned from MFi, likely covered by an active Apple patent (Google Patents lists it as expiring around 2036), exposed to watchOS updates breaking it, and carries burn and LiPo liability.
 - **As a DIY project: plausible but unproven.** I can't give you an honest probability. The early tests below will tell you quickly and cheaply.
-- **As a solution to "I want sleep data and a charged watch":** a 5-minute top-up before bed already gets you ~10 h of sleep tracking on current models, for free. This project only pays off if never taking the watch off matters to you specifically.
+- **As a solution to "I want sleep data and a charged watch":** a 5-minute top-up before bed already gets you ~10 h of sleep tracking on Series 12 / Ultra 4 (8 min for 8 h on SE 3), for free. This project only pays off if never taking the watch off matters to you specifically.
 
 ---
 
@@ -40,7 +40,7 @@ WHOOP solved this when it designed the device, by putting the power receiver whe
 | # | Idea | Verdict | Why |
 |---|---|---|---|
 | A | Pad on top of the watch (over the display) | ❌ Dead | No receiver on that side, and metal parts block the field (§3, §15) |
-| B | Coil wrapped around the case sides | ❌ Dead | A closed metal rim acts like a shorted loop. Measured k = 0.042 vs 0.46 with a factory-slotted rim (§15) |
+| B | Coil wrapped around the case sides | ❌ Dead | A closed metal rim acts like a shorted loop. Simulated k = 0.042, vs ~0.46 with a factory-slotted rim (§15) |
 | C | Wired charging through the hidden port | ❌ Dead | Disabled in software in 2016 and removed from Series 7 onward (§2) |
 | D | Electrical contacts in the band slots | ❌ Dead | Apple has never put contacts there |
 | E | Normal puck under the watch while worn | ❌ Dead | Covers the sensors, so no heart rate and probably wrist detection fails (§4, §13) |
@@ -103,7 +103,7 @@ Tests 1 and 2 cost almost nothing and answer the biggest unknown. **Do them befo
 
 ### Rough prototype parts list (prices are unverified guesses)
 
-- A third-party USB-C Apple Watch charger to sacrifice for its controller board. Nobody sells a standalone Apple Watch transmitter board (§10). ~$10.
+- A third-party USB-C Apple Watch charger to sacrifice for its controller board. Nobody sells a standalone Apple Watch transmitter board (§17). ~$10.
 - Litz wire for a hand-wound flat ring coil, or a small custom flex-PCB coil order. ~$5–40.
 - Flexible ferrite sheet (the kind sold for wireless-charging or NFC shielding). ~$5–10.
 - Protected 1S LiPo, 500–1,000 mAh, plus a USB-C charge board and 5 V boost (or a tiny power-bank module). ~$10–20.
@@ -134,7 +134,7 @@ Tests 1 and 2 cost almost nothing and answer the biggest unknown. **Do them befo
 
 - **Whether watchOS measures heart rate while charging.** Apple documents nothing on it, and forum reports conflict. Only Test 4 can answer it.
 - **The exact size and shape of the receiving coil in current models** (Series 11/12, Ultra 3/4). The patent and drawings show a ring around the sensors, but no public teardown gives dimensions. You'd measure it with the bench prototype in Test 3.
-- **The Apple Watch charging protocol.** It's proprietary and runs in firmware on an STM32 chip plus a custom Apple chip in Apple's puck. The only public reverse-engineering is a paid 2016 spec covering Series 1–2 (§10).
+- **The Apple Watch charging protocol.** It's proprietary and runs in firmware on an STM32 chip plus a custom Apple chip in Apple's puck. The only public reverse-engineering is a paid 2016 spec covering Series 1–2 (§10, §17).
 - **How hot a ring at 50–300 mW actually gets against skin.** No reliable rule of thumb exists. It has to be measured.
 
 ## What to do tonight instead
